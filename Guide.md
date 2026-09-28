@@ -44,6 +44,13 @@ Check these places, in this order:
    3. Delete the folders named `Cache`, `Code Cache`, and `GPUCache`.
    4. Relaunch Discord. It rebuilds these folders on its own. Your login and settings are not affected.
 9. **Toggle the badge setting.** Go to **User Settings** (gear icon) > **Notifications**, turn **Enable Unread Message Badge** off, then back on. This forces Discord to redraw the badge. If nothing else works, you can leave it off. You will lose the badge but keep your normal notifications.
+10. **Log out and back in.** Go to **User Settings** > **Log Out**, then sign back in. This drops Discord's local session and pulls everything fresh from Discord's servers. It's a quicker test than reinstalling: if logging out doesn't clear the badge, a reinstall won't either.
+11. **Clean reinstall (last resort).** A normal uninstall leaves Discord's data folders behind, so a plain reinstall picks up the same local state. To reset it properly:
+    1. Quit Discord from the system tray, then uninstall it from **Settings** > **Apps**.
+    2. Press `Windows Key + R`, type `%appdata%\discord`, press **Enter**, and delete the contents of that folder.
+    3. Do the same for `%localappdata%\Discord`.
+    4. Download Discord from discord.com, install it, and sign in.
+    * A reinstall only resets what's on your PC. If the ghost count is coming from your account (see **Phase 1B**), it will come back after you sign in.
 
 > **Keyboard shortcut note:** In Discord, `Esc` marks the **current channel** as read and `Shift + Esc` marks the **current server** as read. Neither one clears every server, friend request, or DM, so they won't reach an unread item somewhere else.
 
@@ -54,11 +61,14 @@ The same idea applies. The app is counting something you can't see.
 2. **Reload the app.** Many chat apps are built on the same framework as Discord, and `Ctrl + R` reloads them too (Slack, for example). If that doesn't work, fully quit the app from the system tray and relaunch it.
 3. **Clear its cache.** Quit the app, then press `Windows Key + R` and open `%appdata%`. Find the folder named after the app and delete its `Cache`-type folders (not the whole app folder, which may sign you out or reset your settings). If the app isn't there, check `%localappdata%`.
 4. **Sign out and back in** to force a full re-sync with the service.
+5. **Clean reinstall (last resort).** Uninstall the app, then delete its leftover folders in `%appdata%` and `%localappdata%` before installing again. A plain uninstall usually leaves them behind. Like signing out, this only resets what's on your PC.
 
 ## Phase 1B: When the App Shows Nothing Unread (Out-of-Sync Counter)
 Use this phase when the app looks completely clear but the badge keeps coming back, even after a full quit and relaunch. The app gets its unread count from the service's servers, so the ghost item is tied to your **account**, not your PC. That's why clearing the cache and restarting Explorer don't help.
 
 Common reasons this happens: a message that mentioned you was deleted before you saw it, or you lost access to a channel that still had an unread mention in it. The counter goes up but never comes back down.
+
+> **Reinstalling won't fix this.** A reinstall or cache clear only resets what's on your PC. When you sign back in, the app downloads the same unread count from its servers. Logging out and back in is a quick way to confirm this: if the badge survives that, it's account-side.
 
 1. **Toggle the app's badge setting off and on.** In Discord: **User Settings** > **Notifications** > **Enable Unread Message Badge**. This makes the app recalculate the badge and send it again.
 2. **Reload the app** with `Ctrl + R`.
