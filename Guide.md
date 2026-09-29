@@ -4,29 +4,39 @@
 An app's taskbar icon (Discord, Teams, Slack, and so on) shows a red unread badge, but there is nothing unread in the app. When a real message arrives, the badge counts up from the stuck number: one ghost unread plus one real one shows as **2**.
 
 ## How the Badge Actually Works
-Windows does not track your unread messages. The app draws the badge itself and hands it to the taskbar, and the taskbar shows whatever it was given last. When the app changes its count, it sends a new badge. When the app quits, the badge goes away.
+Windows does not track your unread messages. The app draws the badge itself and hands it to the taskbar, and the taskbar shows whatever it was given last. When the app changes its count, it sends a new badge. When the app quits, the badge should go away.
 
 So a stuck badge comes from one of two places:
-* **The app** thinks something is still unread. It keeps sending a badge, and it counts that hidden item on top of new messages.
-* **The taskbar** is holding an old badge the app never cleared. This one is frozen and does not change when new messages arrive.
+* **The taskbar** is holding an old badge the app never cleared. This is the most common cause, and the easiest to fix.
+* **The app** thinks something is still unread, so it keeps sending a badge.
+
+You can't reliably tell these apart by watching the number. A stale taskbar badge can still appear to count up when a new message arrives (stuck at 1, then showing 2), so don't take that as proof the app is the cause.
+
+## Try This First: Restart Windows Explorer
+This takes about 10 seconds, is harmless, and fixes most stale badges. It rebuilds the taskbar from scratch.
+
+1. Press `Ctrl + Shift + Esc` to open Task Manager.
+2. On the **Processes** tab, find **Windows Explorer**.
+3. Right-click it and choose **Restart**. The taskbar will disappear for a moment and reload.
+
+If the badge is gone and stays gone, you're done. If it comes back, go to **Step 1**.
+
+> **Real example:** A Discord user on Windows 10 had a badge stuck at 1, and a new message changed it to 2. Discord showed nothing unread: no count on the Discord logo, no server badges, no friend requests. Marking the server read, clearing Discord's cache, and quitting and relaunching Discord all did nothing. Restarting Windows Explorer cleared it.
 
 ## Step 1: Find Out Which One You Have
-Run these two checks before trying any fixes:
+If restarting Explorer didn't fix it, run these checks:
 
-1. **Watch the number when a new message arrives.**
-   * If it counts **up from the stuck number** (stuck at 1, a new message makes it 2), the app is counting something you can't see. Go to **Phase 1**.
-   * If it stays frozen, or the new badge replaces the old one, the taskbar is probably holding a stale image. Go to **Phase 2**.
-2. **Fully quit the app** from the system tray (bottom-right, near the clock). Right-click its icon and choose **Quit** (not just closing the window).
-   * If the badge **disappears** and comes back after you relaunch the app, the app is causing it. Go to **Phase 1**.
-   * If the badge **stays on the taskbar with the app closed**, the taskbar is stuck. Go to **Phase 2**.
-3. **Look for anything unread inside the app.** Check the app's own unread markers (in Discord: the red count on the Discord logo at top-left, and the badges on server icons).
+1. **Look for anything unread inside the app.** Check the app's own unread markers (in Discord: the red count on the Discord logo at top-left, and the badges on server icons).
    * If you can find unread items, work through **Phase 1**.
-   * If the app shows **nothing unread anywhere**, but the badge still comes back after a full quit and relaunch, the app's badge counter is out of sync with what it shows you. Go to **Phase 1B**.
+   * If the app shows **nothing unread anywhere**, go to **Phase 1B**.
+2. **Fully quit the app** from the system tray (bottom-right, near the clock). Right-click its icon and choose **Quit** (not just closing the window).
+   * If the badge **stays on the taskbar with the app closed**, the taskbar is stuck. Go to **Phase 2**.
+   * If the badge **disappears** and comes back after you relaunch the app, the app is sending it. Use the result of check 1 to choose **Phase 1** or **Phase 1B**.
 
-> **Example:** A Discord user on Windows 10 had a badge stuck at 1, and a new message changed it to 2. Discord showed nothing unread: no count on the Discord logo, no server badges, no friend requests. Quitting and relaunching Discord brought the badge right back. That points to **Phase 1B**: Discord is getting a ghost count from its servers that its own interface doesn't show.
+> **Hint only:** If the number counts up from the stuck value when a new message arrives, the app *may* be counting something hidden. But a stale taskbar badge can do this too, so use the checks above to decide.
 
 ## Phase 1: Find the Hidden Unread Item (App-Side)
-Most stuck badges come from here. The unread item exists, but it is somewhere you don't normally look.
+Use this when the app shows unread markers you haven't cleared. The unread item exists, but it is somewhere you don't normally look.
 
 ### Discord
 Check these places, in this order:
@@ -64,7 +74,9 @@ The same idea applies. The app is counting something you can't see.
 5. **Clean reinstall (last resort).** Uninstall the app, then delete its leftover folders in `%appdata%` and `%localappdata%` before installing again. A plain uninstall usually leaves them behind. Like signing out, this only resets what's on your PC.
 
 ## Phase 1B: When the App Shows Nothing Unread (Out-of-Sync Counter)
-Use this phase when the app looks completely clear but the badge keeps coming back, even after a full quit and relaunch. The app gets its unread count from the service's servers, so the ghost item is tied to your **account**, not your PC. That's why clearing the cache and restarting Explorer don't help.
+> **Before you start:** Make sure you've restarted Windows Explorer (see **Try This First**). A stuck taskbar badge looks exactly like this problem, and it's a much quicker fix.
+
+Use this phase when the app looks completely clear, you've already restarted Explorer, and the badge keeps coming back. The app gets its unread count from the service's servers, so the ghost item is tied to your **account**, not your PC. That's why clearing the cache and restarting Explorer don't help.
 
 Common reasons this happens: a message that mentioned you was deleted before you saw it, or you lost access to a channel that still had an unread mention in it. The counter goes up but never comes back down.
 
@@ -85,7 +97,7 @@ Common reasons this happens: a message that mentioned you was deleted before you
 ## Phase 2: Clear a Stale Badge (Taskbar-Side)
 Use these fixes if the badge stays with the app closed, or stays frozen no matter what the app does.
 
-1. **Restart Windows Explorer.** This rebuilds the taskbar from scratch.
+1. **Restart Windows Explorer** (if you haven't already). This rebuilds the taskbar from scratch.
    1. Press `Ctrl + Shift + Esc` to open Task Manager.
    2. On the **Processes** tab, find **Windows Explorer**.
    3. Right-click it and choose **Restart**. The taskbar will disappear for a moment and reload.
@@ -102,11 +114,11 @@ Use these fixes if the badge stays with the app closed, or stays frozen no matte
 * **Rebuilding the Windows icon cache (`IconCache.db`).** That cache stores normal app icons, not notification badges, so clearing it won't touch a stuck badge.
 
 ## Quick Checklist
-- [ ] New message counts **up** from the stuck number → app-side (**Phase 1**)
-- [ ] Badge **vanishes** when the app is fully quit → app-side (**Phase 1**)
+- [ ] Restarted Windows Explorer first (**Try This First**)
+- [ ] App shows unread items → work through them (**Phase 1**)
+- [ ] App shows **nothing unread** and the badge survives an Explorer restart → out-of-sync counter (**Phase 1B**)
 - [ ] Badge **stays** with the app fully quit → taskbar-side (**Phase 2**)
-- [ ] App shows **nothing unread** and the badge returns after relaunch → out-of-sync counter (**Phase 1B**)
 - [ ] Discord: checked Pending friend requests, Message Requests, muted servers, threads, and the Inbox
 - [ ] Reloaded the app with `Ctrl + R`, then cleared its cache
 - [ ] Checked the account in a browser and on a phone; checked Message Requests > Spam and hidden channels
-- [ ] Restarted Windows Explorer, then restarted the PC
+- [ ] Toggled taskbar badges, re-pinned the app, then restarted the PC
