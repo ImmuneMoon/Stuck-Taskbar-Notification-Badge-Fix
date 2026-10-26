@@ -1,5 +1,11 @@
 # README: Stuck Taskbar Notification Badge Fix
 
+![Windows 10 | 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)
+![Troubleshooting guide](https://img.shields.io/badge/Type-troubleshooting-6f42c1)
+![Includes Discord fixes](https://img.shields.io/badge/Includes-Discord%20fixes-5865F2?logo=discord&logoColor=white)
+[![Last updated](https://img.shields.io/github/last-commit/ImmuneMoon/Stuck-Taskbar-Notification-Badge-Fix?label=updated)](https://github.com/ImmuneMoon/Stuck-Taskbar-Notification-Badge-Fix/commits/main)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey)](LICENSE)
+
 ## 📖 Overview
 The **Stuck Taskbar Notification Badge Fix** is a troubleshooting guide for a common Windows 10 and 11 annoyance: an app's taskbar icon (Discord, Teams, Slack, and others) shows a red unread badge when there is nothing unread, and new messages count up from that ghost number.
 
