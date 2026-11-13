@@ -19,6 +19,8 @@ None of these steps modify the registry or system files. Clearing an app's cache
 ## 🚀 How to Use
 Download the PDF above, or read on below. Start with **Try This First**. If the badge comes back, run **Step 1** and follow the phase it points you to, in order.
 
+Is a Windows Update reminder stuck on screen instead? See [Fix Stuck Windows Update Prompts](https://github.com/ImmuneMoon/Fix-Stuck-Windows-Update-Prompts).
+
 ---
 
 <!-- guide:start -->
